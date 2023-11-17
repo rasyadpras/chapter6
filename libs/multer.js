@@ -15,8 +15,8 @@ const generateStorage = (destination) => {
     filename
 };
 
-module.export = {
-    image: multer({
+module.exports = {
+    Image: multer({
         storage: generateStorage('./media/images'),
         fileFilter: (req, file, callback) => {
             const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];

@@ -6,10 +6,18 @@ async function postGallery(req, res) {
     const { title, description, user_id } = req.body;
 
     try {
+        const stringFile = req.file.buffer.toString('base64');
+
+        const uploadFile = await imagekit.upload({
+            fileName: req.file.originalname,
+            file: stringFile,
+        });
+
         const art = await prisma.gallery.create({
             data: {
                 title: title,
                 description: description,
+                image: uploadFile,
                 user_id: parseInt(user_id)
             }
         });
@@ -70,24 +78,30 @@ async function updateGallery(req, res) {
     const { title, description, image } = req.body;
     const { id } = req.params;
     const payload = {};
-    const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-
-    if (!title && !description && !image) {
-        let response = ResponseTemplate(null, 'bad request', error, 400);
-        return res.status(400).json(response);
-    }
-
-    if (title) {
-        payload.title = title
-    }
-    if (description) {
-        payload.description = description
-    }
-    if (image) {
-        payload.image = imageUrl
-    }
 
     try {
+        const stringFile = req.file.buffer.toString('base64');
+
+        const uploadFile = await imagekit.upload({
+            fileName: req.file.originalname,
+            file: stringFile,
+        });
+
+        if (!title && !description && !image) {
+            let response = ResponseTemplate(null, 'bad request', error, 400);
+            return res.status(400).json(response);
+        }
+
+        if (title) {
+            payload.title = title
+        }
+        if (description) {
+            payload.description = description
+        }
+        if (image) {
+            payload.image = uploadFile
+        }
+
         const find = await prisma.gallery.findUnique({
             where: {
                 id: Number(id)
