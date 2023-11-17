@@ -1,4 +1,7 @@
 # chapter6
 
 ### ERD
-![Challenge 6](https://github.com/rasyadpras/chapter6/assets/106673670/2c7a43e2-9bf9-4aea-81bc-9f58d9b5a68b)
+![Challenge 6](https://github.com/rasyadpras/chapter6/assets/106673670/82f6a5da-ad11-4d13-8945-41b10422090f)
+
+### Link Railway App
+https://chapter6-production-0fb2.up.railway.app/
