@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const { ResponseTemplate } = require('../template_helper/response');
 const prisma = new PrismaClient();
+const imagekit = require('imagekit');
 
 async function postGallery(req, res) {
     const { title, description, user_id } = req.body;
@@ -8,16 +9,16 @@ async function postGallery(req, res) {
     try {
         const stringFile = req.file.buffer.toString('base64');
 
-        const uploadFile = await imagekit.upload({
+        const uploadImage = await imagekit.upload({
             fileName: req.file.originalname,
             file: stringFile,
         });
-
+        const imageUrl = uploadImage.url;
         const art = await prisma.gallery.create({
             data: {
                 title: title,
                 description: description,
-                image: uploadFile,
+                image: imageUrl,
                 user_id: parseInt(user_id)
             }
         });
@@ -82,7 +83,7 @@ async function updateGallery(req, res) {
     try {
         const stringFile = req.file.buffer.toString('base64');
 
-        const uploadFile = await imagekit.upload({
+        const uploadImage = await imagekit.upload({
             fileName: req.file.originalname,
             file: stringFile,
         });
@@ -99,7 +100,7 @@ async function updateGallery(req, res) {
             payload.description = description
         }
         if (image) {
-            payload.image = uploadFile
+            payload.image = uploadImage.url
         }
 
         const find = await prisma.gallery.findUnique({
