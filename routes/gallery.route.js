@@ -10,11 +10,11 @@ const {
 } = require('../controllers/gallery.controller');
 const { storageImage } = require('../controllers/media.controller');
 
-router.post('/', storage.image.single('image'), postGallery);
+router.post('/', postGallery);
 router.get('/', getGallery);
 router.get('/:id', getGalleryId);
 router.put('/:id', updateGallery);
-router.put('/:id/image', storage.image.single('image'), storageImage);
+//router.put('/:id/image', storage.image.single('image'), storageImage);
 router.delete('/:id', deleteGallery);
 
 module.exports = router;

@@ -21,7 +21,7 @@ async function getUser(req, res) {
         let response = ResponseTemplate(user, 'get data success', null, 200);
         return res.status(200).json(response);
     } catch (error) {
-        let response = ResponseTemplate(null, 'internal server error', null, 500);
+        let response = ResponseTemplate(null, 'internal server error', error, 500);
         return res.status(500).json(response);
     }
 };
@@ -36,7 +36,7 @@ async function getUserId(req, res) {
             },
         });
         if (!user) {
-            let response = ResponseTemplate(null, 'user not found', null, 404);
+            let response = ResponseTemplate(null, 'user not found', error, 404);
             return res.status(404).json(response);
         } else {
             let response = ResponseTemplate(users, 'get data success', null, 200);

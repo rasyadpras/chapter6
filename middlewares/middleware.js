@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { ResponseTemplate } = require('../template_helper/response');
 
 const checkRegist = (req, res, next) => {
     const schema = Joi.object({

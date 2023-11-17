@@ -25,7 +25,7 @@ async function register(req, res) {
         let response = ResponseTemplate(user, 'input data success', null, 201);
         return res.status(201).json(response);
     } catch (error) {
-        let response = ResponseTemplate(null, 'internal server error', null, 500);
+        let response = ResponseTemplate(null, 'internal server error', error, 500);
         return res.status(500).json(response);
     }
 };

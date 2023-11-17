@@ -4,21 +4,19 @@ const prisma = new PrismaClient();
 
 async function postGallery(req, res) {
     const { title, description, user_id } = req.body;
-    const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 
     try {
         const art = await prisma.gallery.create({
             data: {
-                title,
-                description,
-                image: imageUrl,
-                user_id
+                title: title,
+                description: description,
+                user_id: parseInt(user_id)
             }
         });
         let response = ResponseTemplate(art, 'input data success', null, 201);
         return res.status(201).json(response);
     } catch (error) {
-        let response = ResponseTemplate(null, 'internal server error', null, 500);
+        let response = ResponseTemplate(null, 'internal server error', error, 500);
         return res.status(500).json(response);
     }
 };
@@ -41,7 +39,7 @@ async function getGallery(req, res) {
         let response = ResponseTemplate(art, 'get data success', null, 200);
         return res.status(200).json(response);
     } catch (error) {
-        let response = ResponseTemplate(null, 'internal server error', null, 500);
+        let response = ResponseTemplate(null, 'internal server error', error, 500);
         return res.status(500).json(response);
     }
 };
@@ -56,7 +54,7 @@ async function getGalleryId(req, res) {
             },
         });
         if (!art) {
-            let response = ResponseTemplate(null, 'data not found', null, 404);
+            let response = ResponseTemplate(null, 'data not found', error, 404);
             return res.status(404).json(response);
         } else {
             let response = ResponseTemplate(users, 'get data success', null, 200);
