@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const checkUser = (req, res, next) => {
+const checkRegist = (req, res, next) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         email: Joi.string().email().required(),
@@ -14,4 +14,4 @@ const checkUser = (req, res, next) => {
     next();
 };
 
-module.exports = { checkUser }
+module.exports = { checkRegist }
