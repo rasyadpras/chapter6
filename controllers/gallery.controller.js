@@ -1,30 +1,30 @@
 const { PrismaClient } = require('@prisma/client');
 const { ResponseTemplate } = require('../template_helper/response');
 const prisma = new PrismaClient();
-const imagekit = require('imagekit');
+const imagekit = require('../libs/imageKit');
 
 async function postGallery(req, res) {
     const { title, description, user_id } = req.body;
 
     try {
         const stringFile = req.file.buffer.toString('base64');
-
         const uploadImage = await imagekit.upload({
             fileName: req.file.originalname,
             file: stringFile,
         });
-        const imageUrl = uploadImage.url;
+
         const art = await prisma.gallery.create({
             data: {
                 title: title,
                 description: description,
-                image: imageUrl,
+                image: uploadImage.url,
                 user_id: parseInt(user_id)
             }
         });
         let response = ResponseTemplate(art, 'input data success', null, 201);
         return res.status(201).json(response);
     } catch (error) {
+        console.log(error);
         let response = ResponseTemplate(null, 'internal server error', error, 500);
         return res.status(500).json(response);
     }
@@ -66,7 +66,7 @@ async function getGalleryId(req, res) {
             let response = ResponseTemplate(null, 'data not found', error, 404);
             return res.status(404).json(response);
         } else {
-            let response = ResponseTemplate(users, 'get data success', null, 200);
+            let response = ResponseTemplate(art, 'get data success', null, 200);
             return res.status(200).json(response);
         }
     } catch (error) {
@@ -76,13 +76,12 @@ async function getGalleryId(req, res) {
 };
 
 async function updateGallery(req, res) {
-    const { title, description, image } = req.body;
+    const { title, description } = req.body;
     const { id } = req.params;
     const payload = {};
 
     try {
         const stringFile = req.file.buffer.toString('base64');
-
         const uploadImage = await imagekit.upload({
             fileName: req.file.originalname,
             file: stringFile,

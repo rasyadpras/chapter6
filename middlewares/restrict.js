@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { ResponseTemplate } = require('../template_helper/response');
 
-module.exports = async (req, res, next) => {
+async function authorization (req, res, next) {
     const { authorization } = req.headers;
     if (!authorization) {
         let response = ResponseTemplate(null, 'user unauthorized', null, 400);
@@ -17,3 +17,5 @@ module.exports = async (req, res, next) => {
         return res.status(401).json(response);
     }
 };
+
+module.exports = { authorization };

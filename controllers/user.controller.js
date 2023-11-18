@@ -39,7 +39,7 @@ async function getUserId(req, res) {
             let response = ResponseTemplate(null, 'user not found', error, 404);
             return res.status(404).json(response);
         } else {
-            let response = ResponseTemplate(users, 'get data success', null, 200);
+            let response = ResponseTemplate(user, 'get data success', null, 200);
             return res.status(200).json(response);
         }
     } catch (error) {

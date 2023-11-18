@@ -8,13 +8,13 @@ const {
     updateGallery,
     deleteGallery
 } = require('../controllers/gallery.controller');
+const { authorization } = require('../middlewares/restrict');
 
 
-router.post('/', multer.single('image'), postGallery);
+router.post('/', authorization, multer.single('image'), postGallery);
 router.get('/', getGallery);
 router.get('/:id', getGalleryId);
-router.put('/:id', multer.single('image'), updateGallery);
-// router.put('/:id/image', multer.single('image'), updateGallery);
-router.delete('/:id', deleteGallery);
+router.put('/:id', authorization, multer.single('image'), updateGallery);
+router.delete('/:id', authorization, deleteGallery);
 
 module.exports = router;

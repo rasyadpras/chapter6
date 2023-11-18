@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.post('/register', checkRegist, register);
 router.post('/login', login);
-router.post('/whoami', restrict, (req, res) => {
-    let response = ResponseTemplate({ user: req.user }, 'success', null, 200)
-    return res.status(200).json(response)
-});
+// router.post('/whoami', restrict, (req, res) => {
+//     let response = ResponseTemplate({ user: req.user }, 'success', null, 200)
+//     return res.status(200).json(response)
+// });
 
 module.exports = router;
