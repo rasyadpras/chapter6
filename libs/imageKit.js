@@ -7,10 +7,8 @@ const {
     IMAGEKIT_URL_ENDPOINT
 } = process.env;
 
-const imagekit = new ImageKit ({
+module.exports = new ImageKit ({
     publicKey: IMAGEKIT_PUBLIC_KEY,
     privateKey: IMAGEKIT_SECRET_KEY,
     urlEndpoint: IMAGEKIT_URL_ENDPOINT
 });
-
-module.exports = imagekit;
